@@ -1,0 +1,74 @@
+apply plugin: 'com.android.application'
+def ext = rootProject.ext
+def cfg = ext.android
+
+android {
+    compileSdkVersion cfg.compileSdkVersion
+    buildToolsVersion cfg.buildToolsVersion
+    defaultConfig {
+        minSdkVersion cfg.minSdkVersion
+        targetSdkVersion cfg.targetSdkVersion
+        versionCode cfg.versionCode
+        versionName cfg.versionName
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        main {
+            manifest.srcFile 'src/main/AndroidManifest.xml'
+            java.srcDirs = ['src/main/java']
+            res.srcDirs = ['src/main/res']
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+}
+
+apply from: "../dependencies.gradle"
+dependencies {
+    implementation 'dc.common:logger:latest.integration'
+//    implementation project(':struct:base')
+//    implementation project(':struct:bridge')
+//    implementation project(':struct:adapter')
+//    implementation project(':struct:stat')
+//    implementation project(':struct:shell')
+//    implementation project(':struct:swipe')
+//    implementation(project(':struct:permission')) {
+//        exclude group: 'dc.android', module: 'bridge'
+//    }
+//    implementation project(':struct:net')
+//    implementation project(':struct:banner')
+
+    implementation "dc.android:core:$ext.coreVersion"
+    implementation "dc.android:bridge:$ext.bridgeVersion"
+    implementation "dc.android.bridge:adapter:$ext.adapterVersion"
+    implementation "dc.android.libs:stat:latest.integration"
+    implementation "dc.android:shell:$ext.shellVersion"
+    implementation "dc.android.libs:swipe:$ext.swipeVersion"
+    implementation "dc.android.libs:banner:$ext.bannerVersion"
+    implementation "dc.android.libs:permission:$ext.permissionVersion"
+    implementation "dc.android.common:net:$ext.netVersion"
+
+    implementation "com.android.support:recyclerview-v7:$ext.supportLibrary"
+    implementation "com.android.support:design:$ext.supportLibrary"
+
+    implementation "com.jakewharton:butterknife:$ext.butterknifeVersion"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$ext.butterknifeVersion"
+
+    implementation "com.google.dagger:dagger:$ext.daggerVersion"
+    annotationProcessor "com.google.dagger:dagger-compiler:$ext.daggerVersion"
+}
